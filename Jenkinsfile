@@ -27,7 +27,8 @@ pipeline {
                 parallel{
                     stage ('Deploy to Staging'){
                         steps {
-                            bat "winscp -i /home/jenkins/amazon-key.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps"
+                            bat "winscp"
+                            bat "open ec2user@${params.tomcat_prod}"
                         }
                     }
 
