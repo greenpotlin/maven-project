@@ -13,7 +13,7 @@ pipeline {
     stages{
             stage('Build'){
                 steps {
-                    bat 'mvn clean package'
+                    sh 'mvn clean package'
                 }
                 post {
                     success {
@@ -27,13 +27,13 @@ pipeline {
                 parallel{
                     stage ('Deploy to Staging'){
                         steps {
-                            bat "winscp -i amazon-key.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps"
+                            sh "scp -i amazon-key.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps"
                         }
                     }
 
                     stage ("Deploy to Production"){
                         steps {
-                            bat "winscp -i amazon-key.pem **/target/*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat8/webapps"
+                            sh "scp -i amazon-key.pem **/target/*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat8/webapps"
                         }
                     }
                 }
